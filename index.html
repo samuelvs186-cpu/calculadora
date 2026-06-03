@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Premium</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#3b82f6);
+    overflow:hidden;
+}
+
+body::before{
+    content:'';
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:#60a5fa;
+    border-radius:50%;
+    filter:blur(150px);
+    top:-100px;
+    left:-100px;
+}
+
+body::after{
+    content:'';
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:#8b5cf6;
+    border-radius:50%;
+    filter:blur(150px);
+    bottom:-100px;
+    right:-100px;
+}
+
+.container{
+    position:relative;
+    width:370px;
+    padding:30px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(15px);
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+    text-align:center;
+    color:white;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+p{
+    margin-bottom:15px;
+    opacity:.8;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    margin-bottom:12px;
+    font-size:16px;
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+    color:white;
+    background:linear-gradient(45deg,#3b82f6,#8b5cf6);
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+#login{
+    display:none;
+}
+
+#calculadora{
+    display:none;
+}
+
+#resultado{
+    height:65px;
+    text-align:right;
+    font-size:28px;
+    color:#111827;
+    font-weight:bold;
+}
+
+.botoes{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.botoes button{
+    height:60px;
+    border:none;
+    border-radius:15px;
+    font-size:22px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.botoes button:hover{
+    transform:scale(1.05);
+}
+
+.numero{
+    background:white;
+}
+
+.operador{
+    background:#3b82f6;
+    color:white;
+}
+
+.igual{
+    background:#10b981;
+    color:white;
+}
+
+.ac{
+    background:#ef4444;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div id="cadastro">
+        <h1>🔒 Criar Senha</h1>
+
+        <p>Cadastre uma senha para acessar a calculadora.</p>
+
+        <input
+            type="password"
+            id="senhaCriada"
+            placeholder="Digite uma senha">
+
+        <button class="btn" onclick="salvarSenha()">
+            Salvar Senha
+        </button>
+    </div>
+
+    <div id="login">
+
+        <h1>🔑 Login</h1>
+
+        <p>Digite sua senha para entrar.</p>
+
+        <input
+            type="password"
+            id="senhaDigitada"
+            placeholder="Digite sua senha">
+
+        <button class="btn" onclick="entrar()">
+            Entrar
+        </button>
+
+    </div>
+
+    <div id="calculadora">
+
+        <h1>🧮 Calculadora</h1>
+
+        <input
+            type="text"
+            id="resultado"
+            readonly>
+
+        <div class="botoes">
+
+            <!-- ERRO 4 -->
+            <button class="numero" onclick="add('')">7</button>
+
+            <button class="numero" onclick="add('8')">8</button>
+            <button class="numero" onclick="add('9')">9</button>
+            <button class="operador" onclick="add('/')">÷</button>
+
+            <button class="numero" onclick="add('4')">4</button>
+            <button class="numero" onclick="add('5')">5</button>
+            <button class="numero" onclick="add('6')">6</button>
+            <button class="operador" onclick="add('*')">×</button>
+
+            <button class="numero" onclick="add('1')">1</button>
+            <button class="numero" onclick="add('2')">2</button>
+            <button class="numero" onclick="add('3')">3</button>
+            <button class="operador" onclick="add('-')">−</button>
+
+            <button class="numero" onclick="add('0')">0</button>
+            <button class="numero" onclick="add('.')">.</button>
+            <button class="igual" onclick="calcular()">=</button>
+            <button class="operador" onclick="add('+')">+</button>
+
+            <button
+                class="ac"
+                style="grid-column: span 4;"
+                onclick="limpar()">
+                AC
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let senha = "";
+
+function salvarSenha(){
+    senha = document.getElementById("senhaCriada").value;
+
+    document.getElementById("cadastro").style.display = "none";
+    document.getElementById("login").style.display = "block";
+}
+
+function entrar(){
+
+    // ERRO 1:
+    // entra com qualquer senha
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("calculadora").style.display = "block";
+}
+
+function add(valor){
+    document.getElementById("resultado").value += valor;
+}
+
+function calcular(){
+
+    try{
+
+        let conta =
+        document.getElementById("resultado").value;
+
+        // ERRO 3:
+        // + vira -
+
+        conta = conta.replace(/\+/g,"-");
+
+        let resultado = eval(conta);
+
+        // ERRO 5:
+        // multiplicação acima de 100
+        // perde 1 no resultado
+
+        if(conta.includes("*") && resultado > 100){
+            resultado--;
+        }
+
+        document.getElementById("resultado").value =
+        resultado;
+
+    }
+    catch{
+        alert("Erro");
+    }
+}
+
+function limpar(){
+
+    let campo =
+    document.getElementById("resultado");
+
+    // ERRO 2:
+    // apaga apenas metade
+
+    campo.value =
+    campo.value.substring(
+        0,
+        campo.value.length / 2
+    );
+}
+
+</script>
+
+</body>
+</html>
