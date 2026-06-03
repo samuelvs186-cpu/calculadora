@@ -93,6 +93,101 @@ input{
     display:none;
 }
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#3b82f6);
+    overflow:hidden;
+}
+
+body::before{
+    content:'';
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:#60a5fa;
+    border-radius:50%;
+    filter:blur(150px);
+    top:-100px;
+    left:-100px;
+}
+
+body::after{
+    content:'';
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:#8b5cf6;
+    border-radius:50%;
+    filter:blur(150px);
+    bottom:-100px;
+    right:-100px;
+}
+
+.container{
+    position:relative;
+    width:370px;
+    padding:30px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(15px);
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+    text-align:center;
+    color:white;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+p{
+    margin-bottom:15px;
+    opacity:.8;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    margin-bottom:12px;
+    font-size:16px;
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+    color:white;
+    background:linear-gradient(45deg,#3b82f6,#8b5cf6);
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+#login{
+    display:none;
+}
+
+#calculadora{
+    display:none;
+}
+
 #resultado{
     height:65px;
     text-align:right;
